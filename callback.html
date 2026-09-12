@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>TikTok Callback</title>
+</head>
+<body>
+  <p>Connecting TikTok to Kawkab Hani...</p>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get("code");
+    const state = params.get("state");
+    const error = params.get("error");
+
+    if (error) {
+      document.body.innerHTML = "<p>TikTok authorization failed: " + error + "</p>";
+    } else if (code && state) {
+      const localCallback =
+        "http://127.0.0.1:8000/api/tiktok/callback?code=" +
+        encodeURIComponent(code) +
+        "&state=" +
+        encodeURIComponent(state);
+
+      window.location.replace(localCallback);
+    } else {
+      document.body.innerHTML = "<p>Missing TikTok authorization data.</p>";
+    }
+  </script>
+</body>
+</html>
